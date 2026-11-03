@@ -1,0 +1,14 @@
+{
+  "name": "firestore-json-importer",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "import": "node import.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}
