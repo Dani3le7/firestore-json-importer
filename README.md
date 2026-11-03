@@ -30,7 +30,7 @@ Save the key file path in `firestore-importer.config.json` in the project folder
 }
 ```
 
-Replace the example with the actual path. This local config file is ignored by Git, so the path stays on your computer. A starter file is provided as `firestore-importer.config.example.json`.
+Replace the example with the actual path. This local config file is ignored by Git, so the path stays on your computer.
 
 You can also set `GOOGLE_APPLICATION_CREDENTIALS` in PowerShell or Command Prompt (CMD); that environment variable takes priority over the config file and applies only to the current terminal session. Keep the service account key private.
 
@@ -46,19 +46,25 @@ json/
 
 ## Usage
 
-Preview the files and IDs without writing to Firestore:
+Preview the files and IDs without writing to Firestore. If you omit the collection path, the importer uses the JSON directory name as the collection name:
 
 ```powershell
-npm run import -- "users/UID/cars" "C:\path\json" --dry-run
+npm run import -- "C:\path\json" --dry-run
 ```
 
-Import the files:
+Import the files into a collection named after the directory:
+
+```powershell
+npm run import -- "C:\path\json"
+```
+
+To choose a collection explicitly, provide its path first:
 
 ```powershell
 npm run import -- "users/UID/cars" "C:\path\json"
 ```
 
-The path must point to a collection, such as `cars` or `users/UID/cars`. By default, imported documents replace existing documents with the same ID.
+The collection path can be a top-level collection such as `cars` or a nested path such as `users/UID/cars`. By default, imported documents replace existing documents with the same ID.
 
 ## Options
 

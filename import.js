@@ -6,6 +6,9 @@ const usage = `Import JSON files from a directory into a Firestore collection.
 
 Usage:
   npm run import -- <collection-path> <json-directory> [options]
+  npm run import -- <json-directory> [options]
+
+If omitted, the collection name defaults to the JSON directory name.
 
 Options:
   --recursive          Include subdirectories
@@ -30,7 +33,15 @@ function parseArgs(args) {
     } else if (arg.startsWith('-')) throw new Error(`Unknown option: ${arg}`);
     else positional.push(arg);
   }
-  if (!options.help && positional.length !== 2) throw new Error('Provide a collection path and JSON directory.');
+  if (options.help) return options;
+  if (positional.length === 1) {
+    return {
+      ...options,
+      inputDirectory: positional[0],
+      collectionPath: path.basename(path.resolve(positional[0])),
+    };
+  }
+  if (positional.length !== 2) throw new Error('Provide a JSON directory and, optionally, a collection path.');
   return { ...options, collectionPath: positional[0], inputDirectory: positional[1] };
 }
 
