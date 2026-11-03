@@ -100,10 +100,11 @@ async function main() {
   const firestore = getFirestore(initializeApp({ credential: applicationDefault() }));
   const collection = firestore.collection(options.collectionPath);
   const writer = firestore.bulkWriter();
-  const results = await Promise.all(documents.map(({ file, id, data }) =>
+  const writes = documents.map(({ file, id, data }) =>
     writer.set(collection.doc(id), data, options.merge ? { merge: true } : undefined)
-      .then(() => ({ file, id }), (error) => ({ file, id, error }))));
+      .then(() => ({ file, id }), (error) => ({ file, id, error })));
   await writer.close();
+  const results = await Promise.all(writes);
 
   const failed = results.filter((result) => result.error);
   for (const { file, id, error } of failed) console.error(`ERROR ${path.relative(directory, file)} -> ${id}: ${error.message}`);
@@ -115,4 +116,3 @@ main().catch((error) => {
   console.error(`Error: ${error.message}`);
   process.exitCode = 1;
 });
-
