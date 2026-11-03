@@ -94,6 +94,17 @@ async function main() {
     return;
   }
 
+  let credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  if (!credentialsPath) {
+    const configPath = path.resolve('firestore-importer.config.json');
+    try {
+      credentialsPath = JSON.parse(await readFile(configPath, 'utf8')).credentialsPath;
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw new Error(`Could not read ${configPath}: ${error.message}`);
+    }
+  }
+  if (credentialsPath) process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve(credentialsPath);
+
   const [{ applicationDefault, initializeApp }, { getFirestore }] = await Promise.all([
     import('firebase-admin/app'), import('firebase-admin/firestore'),
   ]);

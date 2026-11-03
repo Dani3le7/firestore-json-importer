@@ -22,21 +22,17 @@ In the Firebase Console, open **Project settings → Service accounts** and sele
 
 Files such as `google-services.json` and `GoogleService-Info.plist` only configure the client app. They are not service account credentials and cannot be used by this importer.
 
-Set the path to the downloaded key in your terminal session.
+Save the key file path in `firestore-importer.config.json` in the project folder:
 
-PowerShell:
-
-```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS = "$HOME\Downloads\service-account.json"
+```json
+{
+  "credentialsPath": "C:/Users/YourName/Downloads/service-account.json"
+}
 ```
 
-Command Prompt (CMD):
+Replace the example with the actual path. This local config file is ignored by Git, so the path stays on your computer. A starter file is provided as `firestore-importer.config.example.json`.
 
-```cmd
-set "GOOGLE_APPLICATION_CREDENTIALS=C:\Users\YourName\Downloads\service-account.json"
-```
-
-Replace the example path with the actual location of your key file. The setting applies only to the current terminal window. Keep the service account key private.
+You can also set `GOOGLE_APPLICATION_CREDENTIALS` in PowerShell or Command Prompt (CMD); that environment variable takes priority over the config file and applies only to the current terminal session. Keep the service account key private.
 
 ## Input files
 
