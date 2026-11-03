@@ -16,13 +16,27 @@ From the project directory, install the dependencies:
 npm install
 ```
 
-Set the credentials file path in the current PowerShell session:
+### Get the credentials file
+
+In the Firebase Console, open **Project settings → Service accounts** and select **Generate new private key**. The JSON key file will be downloaded, usually to your Downloads folder.
+
+Files such as `google-services.json` and `GoogleService-Info.plist` only configure the client app. They are not service account credentials and cannot be used by this importer.
+
+Set the path to the downloaded key in your terminal session.
+
+PowerShell:
 
 ```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS = "C:\path\service-account.json"
+$env:GOOGLE_APPLICATION_CREDENTIALS = "$HOME\Downloads\service-account.json"
 ```
 
-Keep the service account key private.
+Command Prompt (CMD):
+
+```cmd
+set "GOOGLE_APPLICATION_CREDENTIALS=C:\Users\YourName\Downloads\service-account.json"
+```
+
+Replace the example path with the actual location of your key file. The setting applies only to the current terminal window. Keep the service account key private.
 
 ## Input files
 
